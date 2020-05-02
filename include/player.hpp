@@ -27,7 +27,6 @@ class HumanPlayer : public Player {
 class ComputerPlayer : public Player {
   public:
     virtual ~ComputerPlayer();
-    virtual GameState move() = 0;
 
 };
 
@@ -40,11 +39,14 @@ class RandomPlayer : public ComputerPlayer {
 };
 
 class MiniMaxPlayer : public ComputerPlayer {
+  // private;
+    // StateNode m_root;
   public:
     MiniMaxPlayer(Game* game);
     virtual ~MiniMaxPlayer();
     virtual GameState move();
-    Action* search(State* s, bool is_maximize);
+    StateNode& search(StateNode& s, int player_order, int depth, bool is_maximize);
+    std::pair<int,int> eval(StateNode root, bool is_maximize, int depth);
 };
 
 class H_MiniMaxPlayer : public ComputerPlayer {

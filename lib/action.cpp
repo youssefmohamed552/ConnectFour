@@ -3,14 +3,14 @@
 
 Action::
 ~Action(){
-  std::cout << "Action Created!!\n";
+  // std::cout << "Action Created!!\n";
 }
 
 ConnectFourAction::
 ConnectFourAction(int move, int player)
   : m_move(move)
 {
-  std::cout << "Connect Four Action Created!!\n";
+  // std::cout << "Connect Four Action Created!!\n";
   m_player = player;
 }
 
@@ -18,5 +18,5 @@ ConnectFourAction(int move, int player)
 
 ConnectFourAction::
 ~ConnectFourAction(){
-  std::cout << "Connect Four Action Destroyed!!\n";
+  // std::cout << "Connect Four Action Destroyed!!\n";
 }

@@ -8,8 +8,8 @@ State::
 }
 
 ConnectFourState::
-ConnectFourState()
-  : m_board(std::vector<ConnectFourToken>(9, T_EMPTY)), m_col(std::vector<int>(3)), m_width(3), m_height(3), m_connect(3)
+ConnectFourState(int width, int height, int connect)
+  : m_board(std::vector<ConnectFourToken>(width*height, T_EMPTY)), m_col(std::vector<int>(width)), m_width(width), m_height(height), m_connect(connect)
 {
   // std::cout << "Connect Four State Created !!\n";
   m_utility = -2;
@@ -48,7 +48,7 @@ display() const {
 
 bool
 ConnectFourState::
-act(const Action& a){
+act(const Action& a, int p){
   if(a.move() >= m_width || a.move() < 0) return false;
   int h = m_col[a.move()];
   if(h >= m_height ) return false;
@@ -57,7 +57,7 @@ act(const Action& a){
   else
     set(a.move(), m_height-h-1, T_YELLOW);
   m_col[a.move()]++;
-  compute_utility(a.player());
+  compute_utility(p);
   return true;
 }
 
@@ -65,15 +65,12 @@ act(const Action& a){
 void
 ConnectFourState::
 compute_utility(int player_order) {
-  StateStatus status = check_draw();
-  if(status == S_TERMINAL){
-    m_status = S_TERMINAL;
-    m_utility = 0;
-    return;
-  }
   ConnectFourToken player_token = (player_order == 1)? T_RED : T_YELLOW;
   int w = m_width - m_connect;
   int h = m_width - m_connect;
+
+
+
   // check horizontally
   for(int i = 0; i < m_height; i++){
     for(int j = 0; j <= w; j++){
@@ -143,6 +140,15 @@ compute_utility(int player_order) {
     }
   }
 
+
+
+  StateStatus status = check_draw();
+  if(status == S_TERMINAL){
+    m_status = S_TERMINAL;
+    m_utility = 0;
+    return;
+  }
+
   m_status = S_NON_TERMINAL;
 }
 
@@ -157,29 +163,66 @@ check_draw() const{
 
 
 
- std::vector<Action*> 
- ConnectFourState::
- action_set(int player_order) const{
-   std::vector<Action*> act_set;
-   for(int i = 0; i < m_width; i++){
-     if(m_col[i] >= m_height) continue;
-     act_set.push_back(new ConnectFourAction(i,player_order));
-   }
-   return act_set;
- }
+std::vector<Action*> 
+ConnectFourState::
+action_set(int player_order) const{
+  std::vector<Action*> act_set;
+  for(int i = 0; i < m_width; i++){
+    if(m_col[i] >= m_height) continue;
+    act_set.push_back(new ConnectFourAction(i,player_order));
+  }
+  return act_set;
+}
 
 
- State*
- ConnectFourState::
- copy(){
-   ConnectFourState* new_state = new ConnectFourState();
-   *new_state = *this;
-   return new_state;
- }
+State*
+ConnectFourState::
+copy(){
+  ConnectFourState* new_state = new ConnectFourState(m_width, m_height, m_connect);
+  *new_state = *this;
+  return new_state;
+}
 
- StateStatus
- ConnectFourState::
- check_status(){
-   // TODO
-   return S_TERMINAL;
- }
+StateStatus
+ConnectFourState::
+check_status(){
+  // TODO
+  return S_TERMINAL;
+}
+
+
+
+int
+StateNode::
+count = 0;
+
+StateNode::
+StateNode( State* state, int player)
+  : m_state(state), m_player(player), m_utility(-2)
+{
+  // std::cout << "State Node Destroyed !!\n";
+  count++;
+}
+
+StateNode::
+StateNode( const StateNode& other){
+  // std::cout << "State Node Copied !!\n";
+  m_state = other.state()->copy();
+  m_player = other.player();
+  m_utility = other.utility();
+  count++;
+}
+
+StateNode::
+~StateNode(){
+  // std::cout << "State Node Created !!\n";
+}
+
+bool
+StateNode::
+update(const Action& a, int p){
+  bool res = m_state->act(a, p);
+  m_utility = m_state->utility();
+  return res;
+}
+

@@ -19,6 +19,7 @@ main(int argc, char* argv[]){
 
   // create the players
   Player* player1 = new HumanPlayer(game);
+  // Player* player1 = new  MiniMaxPlayer(game);
   Player* player2 = new MiniMaxPlayer(game);
 
   bool player1_turn = true;
@@ -34,9 +35,18 @@ main(int argc, char* argv[]){
     }
     game->display();
     player1_turn = !player1_turn;
+
+    if(g_state == S_DONE){
+      int score = game->current_state()->utility();
+      if(score == 0)
+        std::cout << "GAME OVER: the game is a draw\n";
+      else
+        std::cout << "GAME OVER: Player " << ((!player1_turn)? "1":"2") << " Wins\n";
+
+    }
   }
 
-  std::cout << "GAME OVER: Player " << ((!player1_turn)? "1":"2") << " Wins\n";
+
 
   delete player2;
   delete player1;
