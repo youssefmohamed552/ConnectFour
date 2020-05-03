@@ -45,7 +45,6 @@ class MiniMaxPlayer : public ComputerPlayer {
     MiniMaxPlayer(Game* game);
     virtual ~MiniMaxPlayer();
     virtual GameState move();
-    StateNode& search(StateNode& s, int player_order, int depth, bool is_maximize);
     std::pair<int,int> eval(StateNode root, bool is_maximize, int depth);
 };
 

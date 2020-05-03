@@ -184,10 +184,3 @@ eval(StateNode root, bool is_maximize, int depth){
   return (is_maximize? max_val: min_val);
 }
 
-
-StateNode&
-MiniMaxPlayer::
-search(StateNode& sn, int player_order, int depth, bool is_maximize){
-  return sn;
-}
-
