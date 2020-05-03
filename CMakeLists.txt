@@ -10,4 +10,6 @@ add_library(player lib/player.cpp)
 add_library(action lib/action.cpp)
 add_executable(app main.cpp)
 
+add_executable(test test.cpp)
+
 target_link_libraries(app state game action player)

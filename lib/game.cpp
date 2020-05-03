@@ -7,23 +7,11 @@ Game::
 }
 
 ConnectFour::
-ConnectFour()
+ConnectFour(int width, int height, int connect)
  //  : m_state(new ConnectFourState())
 {
   // std::cout << "Connect Four Game Created !!\n";
-  std::cout << "Which game would you like to play:\n";
-  std::cout << "1. Connect Four 3x3x3\n";
-  std::cout << "2. Connect Four 3x5x3\n";
-  std::cout << "3. Connect Four 6x7x4\n";
-  int choice = 0; 
-  std::cin >> choice;
-  while(choice > 3 || choice < 1){
-    std::cout << "please choose one of the optionsi: ";
-    std::cin >> choice;
-  }
-  if(choice == 1) m_state = new ConnectFourState(3,3,3);
-  if(choice == 2) m_state = new ConnectFourState(5,3,3);
-  if(choice == 3) m_state = new ConnectFourState(7,6,4);
+  m_state = new ConnectFourState(width, height, connect);
   m_state->display();
 }
 

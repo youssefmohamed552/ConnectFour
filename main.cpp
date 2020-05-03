@@ -14,8 +14,22 @@ int
 main(int argc, char* argv[]){
   std::cout << "This is Connect Four!! \n";
 
+  std::cout << "Which game would you like to play:\n";
+  std::cout << "1. Connect Four 3x3x3\n";
+  std::cout << "2. Connect Four 3x5x3\n";
+  std::cout << "3. Connect Four 6x7x4\n";
+  int choice = 1; 
+  // std::cin >> choice;
+  while(choice > 3 || choice < 1){
+    std::cout << "please choose one of the optionsi: ";
+    std::cin >> choice;
+  }
+  Game* game;
+  if(choice == 1) game = new ConnectFour(3,3,3);
+  if(choice == 2) game = new ConnectFour(5,3,3);
+  if(choice == 3) game = new ConnectFour(7,6,4);
+
   // create the game
-  Game* game = new ConnectFour();
 
   // create the players
   Player* player1 = new HumanPlayer(game);

@@ -32,7 +32,7 @@ class Game{
 class ConnectFour : public Game{
   bool is_player1 = true;
   public:
-    ConnectFour();
+    ConnectFour(int width, int height, int connect);
     virtual ~ConnectFour();
     virtual GameState make_human_move(int player_order);
     virtual GameState make_move(const Action& action);

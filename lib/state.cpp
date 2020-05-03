@@ -67,7 +67,7 @@ ConnectFourState::
 compute_utility(int player_order) {
   ConnectFourToken player_token = (player_order == 1)? T_RED : T_YELLOW;
   int w = m_width - m_connect;
-  int h = m_width - m_connect;
+  int h = m_height - m_connect;
 
 
 
@@ -124,8 +124,8 @@ compute_utility(int player_order) {
 
 
   // check diagonally bottom right
-  for(int i = m_connect-1; i < m_width; i++){
-    for(int j = 0; j <= h; j++){
+  for(int i = m_connect-1; i < m_height; i++){
+    for(int j = 0; j <= w; j++){
       if(get(j, i) == T_EMPTY) continue;
       ConnectFourToken first_token = get(j, i);
       int k = 1;
@@ -211,6 +211,7 @@ StateNode( const StateNode& other){
   m_player = other.player();
   m_utility = other.utility();
   count++;
+  // if(count % 100000 == 0) std::cout << count << "states searched so far\n";
 }
 
 StateNode::
