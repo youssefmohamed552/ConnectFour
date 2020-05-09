@@ -18,7 +18,7 @@ main(int argc, char* argv[]){
   std::cout << "1. Connect Four 3x3x3\n";
   std::cout << "2. Connect Four 3x5x3\n";
   std::cout << "3. Connect Four 6x7x4\n";
-  int choice = 1; 
+  int choice = 3; 
   // std::cin >> choice;
   while(choice > 3 || choice < 1){
     std::cout << "please choose one of the optionsi: ";
@@ -34,7 +34,7 @@ main(int argc, char* argv[]){
   // create the players
   Player* player1 = new HumanPlayer(game);
   // Player* player1 = new  MiniMaxPlayer(game);
-  Player* player2 = new MiniMaxPlayer(game);
+  Player* player2 = new H_MiniMaxPlayer(game, 5);
 
   bool player1_turn = true;
 

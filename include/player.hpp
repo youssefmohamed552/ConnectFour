@@ -39,17 +39,20 @@ class RandomPlayer : public ComputerPlayer {
 };
 
 class MiniMaxPlayer : public ComputerPlayer {
-  // private;
-    // StateNode m_root;
+  protected:
+    int m_depth;
   public:
+    MiniMaxPlayer(){}
     MiniMaxPlayer(Game* game);
     virtual ~MiniMaxPlayer();
     virtual GameState move();
-    std::pair<int,int> eval(StateNode root, bool is_maximize, int depth);
+    virtual std::pair<int,int> eval(StateNode root, bool is_maximize, int depth);
 };
 
-class H_MiniMaxPlayer : public ComputerPlayer {
-  // TODO
+class H_MiniMaxPlayer : public MiniMaxPlayer {
+  public:
+    H_MiniMaxPlayer(Game* game, int depth);
+    virtual ~H_MiniMaxPlayer();
 };
 
 

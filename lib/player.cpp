@@ -118,6 +118,7 @@ MiniMaxPlayer(Game* game){
   // std::cout << "MiniMax Player Created!!\n";
   m_game = game;
   m_order = count + 1;
+  m_depth = -1;
   count++;
 }
 
@@ -139,8 +140,8 @@ move(){
     StateNode child = root;
     child.update(*(act_set[i]), m_order);
     std::pair<int,int> val = eval(child, false, 1);
-    // child.state()->display();
-    // std::cout << "(" << val.first << "," << val.second <<  ") \n";
+    child.state()->display();
+    std::cout << "(" << val.first << "," << val.second <<  ") \n";
     if(val.first > max_val.first || ((val.first == max_val.first) && (val.second < max_val.second))){ 
       max_val = val;
       best_action = act_set[i];
@@ -156,7 +157,8 @@ move(){
 std::pair<int,int>
 MiniMaxPlayer::
 eval(StateNode root, bool is_maximize, int depth){
-  if(root.is_terminal()) return {root.utility(),depth};
+  if((m_depth < 0) && root.is_terminal()) return {root.utility(),depth};
+  if((m_depth > 0) && (root.is_terminal() || (depth >= m_depth))) return {root.check_huristic(),depth};
   int player = (is_maximize?((m_order == 1)? 1:2 ) : ((m_order == 1)? 2: 1));
   std::vector<Action*> act_set = root.state()->action_set(player);
   std::pair<int,int> max_val = {INT_MIN,INT_MAX};
@@ -182,5 +184,20 @@ eval(StateNode root, bool is_maximize, int depth){
   }
 
   return (is_maximize? max_val: min_val);
+}
+
+/* H_MiniMaxPlayer: plays minimax with the huristics to evaluate at a certain state upto a 
+ * defined depth
+ */
+
+H_MiniMaxPlayer::
+H_MiniMaxPlayer(Game* game ,int depth){
+  m_game = game;
+  m_depth = depth;
+}
+
+
+H_MiniMaxPlayer::
+~H_MiniMaxPlayer(){
 }
 

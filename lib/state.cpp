@@ -2,6 +2,40 @@
 
 #include "state.hpp"
 
+
+
+int
+get_max(const std::vector<std::vector<int>>& v){
+  int max_num = INT_MIN;
+  for(auto l:v){
+    int temp_max = *std::max_element(l.begin(), l.end());
+    if(temp_max > max_num) max_num = temp_max;
+  }
+  return max_num;
+}
+
+
+int
+get_min(const std::vector<std::vector<int>>& v){
+  int min_num = INT_MAX;
+  for(auto l:v){
+    int temp_min = *std::min_element(l.begin(), l.end());
+    if(temp_min > min_num) min_num = temp_min;
+  }
+  return min_num;
+}
+
+int compute_total(const std::vector<std::vector<int>>& v){
+  int total_num = 0;
+  for(auto l:v){
+    for(auto n:l){
+      total_num += n;
+    }
+  }
+  return total_num;
+}
+
+
 State::
 ~State(){
   // std::cout << "State destroyed !!\n";
@@ -13,6 +47,7 @@ ConnectFourState(int width, int height, int connect)
 {
   // std::cout << "Connect Four State Created !!\n";
   m_utility = -2;
+  m_huristic = INT_MIN;
   m_status = S_NON_TERMINAL;
 }
 
@@ -140,8 +175,6 @@ compute_utility(int player_order) {
     }
   }
 
-
-
   StateStatus status = check_draw();
   if(status == S_TERMINAL){
     m_status = S_TERMINAL;
@@ -198,7 +231,7 @@ count = 0;
 
 StateNode::
 StateNode( State* state, int player)
-  : m_state(state), m_player(player), m_utility(-2)
+  : m_state(state), m_player(player), m_utility(-2), player_move(player)
 {
   // std::cout << "State Node Destroyed !!\n";
   count++;
@@ -210,6 +243,7 @@ StateNode( const StateNode& other){
   m_state = other.state()->copy();
   m_player = other.player();
   m_utility = other.utility();
+  player_move = other.player_move;
   count++;
   // if(count % 100000 == 0) std::cout << count << "states searched so far\n";
 }
@@ -224,6 +258,162 @@ StateNode::
 update(const Action& a, int p){
   bool res = m_state->act(a, p);
   m_utility = m_state->utility();
+  player_move = p;
   return res;
 }
 
+
+int 
+ConnectFourState::
+compute_huristic(int player_order){
+  int h = check_horizontal(player_order);
+  int w = check_vertical(player_order);
+  int dr = check_diagonal_right(player_order);
+  int dl = check_diagonal_left(player_order);
+  return  h + w + dr + dl;
+}
+
+int
+ConnectFourState::
+check_horizontal(int player_order){
+  std::vector<std::vector<int>> temp(m_height, std::vector<int>(m_width,0));
+  for(int i = 0; i < temp.size(); i++){
+    temp[i][0] = get_cell_val(0, i, player_order);
+  }
+  for(int i = 0; i < temp.size(); i++){
+    for(int j = 1; j < temp[i].size(); j++){
+      if(get(j, i) == T_EMPTY) {
+        temp[i][j] = 0;
+        continue;
+      }
+      if(get(j, i) == get(j-1, i)){
+        int val = get_cell_val(j, i, player_order);
+        temp[i][j] = temp[i][j-1] + val;
+        continue;
+      }
+      temp[i][j] = get_cell_val(j, i, player_order);
+    }
+  }
+  // for(auto l: temp){
+    // for(auto v: l){
+      // std::cout << v << " ";
+    // }
+    // std::cout << std::endl;
+  // }
+  return compute_total(temp);
+}
+
+int
+ConnectFourState::
+check_vertical(int player_order){
+  std::vector<std::vector<int>> temp(m_height, std::vector<int>(m_width,0));
+  for(int i = 0; i < temp.size(); i++){
+    temp[0][i] = get_cell_val(i, 0, player_order);
+  }
+  for(int i = 1; i < temp.size(); i++){
+    for(int j = 0; j < temp[i].size(); j++){
+      if(get(j, i) == T_EMPTY) {
+        temp[i][j] = 0;
+        continue;
+      }
+      if(get(j, i) == get(j, i-1)){
+        int val = get_cell_val(j, i, player_order);
+        temp[i][j] = temp[i-1][j] + val;
+        continue;
+      }
+      temp[i][j] = get_cell_val(j, i, player_order);
+    }
+  }
+  // for(auto l: temp){
+    // for(auto v: l){
+      // std::cout << v << " ";
+    // }
+    // std::cout << std::endl;
+  // }
+  return compute_total(temp);
+}
+
+int
+ConnectFourState::
+check_diagonal_right(int player_order){
+  std::vector<std::vector<int>> temp(m_height, std::vector<int>(m_width,0));
+  for(int i = 0; i < m_width; i++){
+    temp[0][i] = get_cell_val(i, 0, player_order);
+  }
+  for(int i = 0; i < m_height; i++){
+    temp[i][0] = get_cell_val(0, i, player_order);
+  }
+  for(int i = 1; i < temp.size(); i++){
+    for(int j = 1; j < temp[i].size(); j++){
+      if(get(j, i) == T_EMPTY) {
+        temp[i][j] = 0;
+        continue;
+      }
+      if(get(j, i) == get(j-1, i-1)){
+        int val = get_cell_val(j, i, player_order);
+        temp[i][j] = temp[i-1][j-1] + val;
+        continue;
+      }
+      temp[i][j] = get_cell_val(j, i, player_order);
+    }
+  }
+  // for(auto l: temp){
+    // for(auto v: l){
+      // std::cout << v << " ";
+    // }
+    // std::cout << std::endl;
+  // }
+  return compute_total(temp);
+}
+
+
+int
+ConnectFourState::
+check_diagonal_left(int player_order){
+  std::vector<std::vector<int>> temp(m_height, std::vector<int>(m_width,0));
+  for(int i = 0; i < m_width; i++){
+    temp[0][i] = get_cell_val(i, 0, player_order);
+  }
+  for(int i = 0; i < m_height; i++){
+    temp[i][m_width-1] = get_cell_val(m_width-1, i, player_order);
+  }
+  for(int i = 1; i < temp.size(); i++){
+    for(int j = 0; j < temp[i].size()-1; j++){
+      if(get(j, i) == T_EMPTY) {
+        temp[i][j] = 0;
+        continue;
+      }
+      if(get(j, i) == get(j+1, i-1)){
+        int val = get_cell_val(j, i, player_order);
+        temp[i][j] = temp[i-1][j+1] + val;
+        continue;
+      }
+      temp[i][j] = get_cell_val(j, i, player_order);
+    }
+  }
+  // for(auto l: temp){
+    // for(auto v: l){
+      // std::cout << v << " ";
+    // }
+    // std::cout << std::endl;
+  // }
+  return compute_total(temp);
+}
+
+
+int
+ConnectFourState::
+get_cell_val(int x, int y, int player_order){
+  ConnectFourToken t = get(x, y);
+  ConnectFourToken p = (player_order == 1)? T_RED : T_YELLOW;
+  switch(t){
+    case T_RED:
+      if(p == T_RED) return 1;
+      else return -1;
+    case T_YELLOW:
+      if(p == T_YELLOW) return 1;
+      else return -1;
+    case T_EMPTY:
+      return 0;
+  }
+}
