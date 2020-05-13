@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "state.hpp"
+#include "connect_four_state.hpp"
 
 
 
@@ -36,10 +36,6 @@ int compute_total(const std::vector<std::vector<int>>& v){
 }
 
 
-State::
-~State(){
-  // std::cout << "State destroyed !!\n";
-}
 
 ConnectFourState::
 ConnectFourState(int width, int height, int connect)

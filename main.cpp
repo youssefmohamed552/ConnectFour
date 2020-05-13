@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include "game.hpp"
+#include "connect_four_game.hpp"
 #include "player.hpp"
 
 

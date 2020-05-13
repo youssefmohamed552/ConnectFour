@@ -1,10 +1,8 @@
 #include <iostream>
 
-#include "game.hpp"
+#include "connect_four_game.hpp"
+#include "connect_four_state.hpp"
 
-Game::
-~Game(){
-}
 
 ConnectFour::
 ConnectFour(int width, int height, int connect)
