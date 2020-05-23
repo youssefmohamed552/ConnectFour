@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/gui.hpp
+QtWidgets
+-
+
+/Users/youssefhussein/programming/cplusplus/ai/connect_four/GUI/src/gui.cpp
+iostream
+-
+gui.hpp
+/Users/youssefhussein/programming/cplusplus/ai/connect_four/GUI/src/gui.hpp
+
+/usr/local/Cellar/qt/5.14.2/lib/QtWidgets.framework/QtWidgets
+

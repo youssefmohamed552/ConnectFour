@@ -4,7 +4,7 @@
 #include <vector>
 #include <unordered_set>
 #include "state.hpp"
-#include "connect_four_action.hpp"
+#include "game/connect_four_action.hpp"
 
 enum ConnectFourToken{
   T_EMPTY,
@@ -34,6 +34,7 @@ class ConnectFourState : public State {
     ConnectFourToken get(int x, int y) const { return m_board[y*m_width + x]; }
     void set(int x, int y, ConnectFourToken val){ m_board[y*m_width + x] = val;}
     virtual bool act(const Action& a, int p);
+    virtual bool human_act(int p);
     virtual void compute_utility(int player_order);
     virtual int compute_huristic(int player_order);
     virtual std::vector<Action*> action_set(int player_order) const;
@@ -45,6 +46,9 @@ class ConnectFourState : public State {
     int check_vertical(int player_order);
     int check_diagonal_right(int player_order);
     int check_diagonal_left(int player_order);
+    int width() const { return m_width; }
+    int height() const { return m_height; }
+    int connect() const { return m_connect; }
 };
 
 

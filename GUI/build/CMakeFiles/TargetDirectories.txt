@@ -1,0 +1,10 @@
+/Users/youssefhussein/programming/cplusplus/ai/connect_four/GUI/build/CMakeFiles/gui.dir
+/Users/youssefhussein/programming/cplusplus/ai/connect_four/GUI/build/CMakeFiles/edit_cache.dir
+/Users/youssefhussein/programming/cplusplus/ai/connect_four/GUI/build/CMakeFiles/app.dir
+/Users/youssefhussein/programming/cplusplus/ai/connect_four/GUI/build/CMakeFiles/render_area.dir
+/Users/youssefhussein/programming/cplusplus/ai/connect_four/GUI/build/CMakeFiles/rebuild_cache.dir
+/Users/youssefhussein/programming/cplusplus/ai/connect_four/GUI/build/CMakeFiles/window.dir
+/Users/youssefhussein/programming/cplusplus/ai/connect_four/GUI/build/CMakeFiles/gui_autogen.dir
+/Users/youssefhussein/programming/cplusplus/ai/connect_four/GUI/build/CMakeFiles/app_autogen.dir
+/Users/youssefhussein/programming/cplusplus/ai/connect_four/GUI/build/CMakeFiles/render_area_autogen.dir
+/Users/youssefhussein/programming/cplusplus/ai/connect_four/GUI/build/CMakeFiles/window_autogen.dir

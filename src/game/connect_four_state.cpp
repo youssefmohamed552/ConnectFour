@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "connect_four_state.hpp"
+#include "game/connect_four_state.hpp"
 
 
 
@@ -80,6 +80,7 @@ display() const {
 bool
 ConnectFourState::
 act(const Action& a, int p){
+  if(m_status == S_TERMINAL) return false;
   if(a.move() >= m_width || a.move() < 0) return false;
   int h = m_col[a.move()];
   if(h >= m_height ) return false;
@@ -90,6 +91,21 @@ act(const Action& a, int p){
   m_col[a.move()]++;
   compute_utility(p);
   return true;
+}
+
+bool
+ConnectFourState::
+human_act(int p){
+
+  int move = -1;
+  bool valid_move = false;
+
+  while(!valid_move){
+    std::cout << "Please provide a column for input: ";
+    std::cin >> move;
+    valid_move = act(ConnectFourAction(move, p), p);
+  }
+  return valid_move;
 }
 
 // StateStatus

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "connect_four_action.hpp"
+#include "game/connect_four_action.hpp"
 
 
 ConnectFourAction::

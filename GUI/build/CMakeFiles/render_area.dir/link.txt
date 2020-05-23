@@ -1,0 +1,2 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc librender_area.a  CMakeFiles/render_area.dir/render_area_autogen/mocs_compilation.cpp.o CMakeFiles/render_area.dir/src/render_area.cpp.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib librender_area.a

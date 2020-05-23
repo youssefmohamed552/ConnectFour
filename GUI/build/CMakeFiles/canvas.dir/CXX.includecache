@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/canvas.hpp
+QtGui
+-
+
+/Users/youssefhussein/programming/cplusplus/ai/connect_four/GUI/src/canvas.cpp
+canvas.hpp
+/Users/youssefhussein/programming/cplusplus/ai/connect_four/GUI/src/canvas.hpp
+
+/usr/local/Cellar/qt/5.14.2/lib/QtGui.framework/QtGui
+
